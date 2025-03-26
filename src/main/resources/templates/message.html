@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <title>Messages - PayYouPayMe</title>
+</head>
+<body>
+    <header th:replace="~{fragments/menu :: menuPrincipal}"></header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Messages</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Message</th>
+                        <th>Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="message : ${messages}">
+                        <td th:text="${message.content}"></td>
+                        <td th:text="${message.reponse}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="card">
+            <h3>Send New Message</h3>
+            <form th:action="@{/message/addmessage}" method="POST">
+                <div class="form-group">
+                    <label for="messagecontent">Your Message</label>
+                    <textarea id="messagecontent" name="messagecontent" placeholder="Write your message" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
+
+<div th:replace="~{fragments/style :: styleApplication}">
+</div>

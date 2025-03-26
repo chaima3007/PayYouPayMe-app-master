@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <title>Transfers - PayYouPayMe</title>
+</head>
+<body>
+    <header th:replace="~{fragments/menu :: menuPrincipal}"></header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Transfers</h2>
+            <div class="balance mb-4" th:text="'Balance: $' + ${utilisateur.balance}"></div>
+
+            <form th:action="@{/transfert/createTransfert}" method="POST" class="mb-5">
+                <div class="form-group">
+                    <label for="content">Message</label>
+                    <input type="text" id="content" name="content" placeholder="Message" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" name="amount" placeholder="Amount" class="form-control" min="0">
+                </div>
+                
+                <button type="submit" class="btn">Create Transfer</button>
+            </form>
+
+            <h3>Completed Transfers</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="transfert : ${utilisateur.transferts}">
+                        <td th:text="${transfert.id}"></td>
+                        <td th:text="'$' + ${transfert.amount}"></td>
+                        <td th:text="${transfert.messageContent}"></td>
+                        <td th:text="${transfert.date}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
+
+<div th:replace="~{fragments/style :: styleApplication}">
+</div>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <title>Admin Dashboard - PayYouPayMe</title>
+</head>
+<body>
+    <header th:replace="~{fragments/menuadmin :: menuPrincipaladmin}"></header>
+
+    <main class="container admin-dashboard">
+        <!-- Section Messages - Pleine largeur -->
+        <section class="card full-width">
+            <h2>Messages</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Content</th>
+                            <th>Date</th>
+                            <th>Username</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="message : ${messages}">
+                            <td th:text="${message.id}"></td>
+                            <td th:text="${message.content}"></td>
+                            <td th:text="${message.date}"></td>
+                            <td th:text="${message.utilisateur.username}"></td>
+                            <td>
+                                <div th:if="${message.reponse == null}">
+                                    <form th:action="@{'/admin/reponse?id=' + ${message.id}}" method="POST">
+                                        <input type="text" name="content" class="form-control">
+                                        <button type="submit" class="btn btn-sm mt-2">Reply</button>
+                                    </form>
+                                </div>
+                                <span th:unless="${message.reponse == null}" th:text="${message.reponse}"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section Transactions - Pleine largeur -->
+        <section class="card full-width mt-4">
+            <h2>Transactions</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Sender</th>
+                            <th>Receiver</th>
+                            <th>Status</th>
+                            <th>Problem</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="transaction : ${transactions}">
+                            <td th:text="${transaction.id}"></td>
+                            <td th:text="${transaction.messageContent}"></td>
+                            <td th:text="${transaction.date}"></td>
+                            <td th:text="${transaction.sender.username}"></td>
+                            <td th:text="${transaction.reciever.username}"></td>
+                            <td>
+                                <span th:if="${transaction.valide}" class="text-success">Validated</span>
+                                <span th:if="${transaction.rejet}" class="text-danger">Rejected</span>
+                                <span th:if="${!transaction.valide && !transaction.rejet}" class="text-warning">Pending</span>
+                            </td>
+                            <td th:text="${transaction.problemMessage}"></td>
+                            <td>
+                                <div th:if="${!transaction.valide}" class="btn-group">
+                                    <form th:action="@{'/admin/validertransaction?id=' + ${transaction.id}}" method="POST">
+                                        <button type="submit" class="btn btn-success btn-sm">Validate</button>
+                                    </form>
+                                    <form th:if="${!transaction.rejet}" th:action="@{'/admin/rejetertransaction?id=' + ${transaction.id}}" method="POST" class="ml-2">
+                                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section Users - Pleine largeur -->
+        <section class="card full-width mt-4">
+            <h2>Users</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${utilisateurs}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.balance}"></td>
+                            <td>
+                                <span th:if="${user.actif}" class="text-success">Active</span>
+                                <span th:unless="${user.actif}" class="text-danger">Inactive</span>
+                                <span th:unless="${user.confirmer}" class="text-warning">Unconfirmed</span>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <form th:if="${user.actif}" th:action="@{'/admin/desactiveruser?id=' + ${user.id}}" method="POST">
+                                        <button type="submit" class="btn btn-warning btn-sm">Disable</button>
+                                    </form>
+                                    <form th:if="${!user.confirmer}" th:action="@{'/admin/confirmeruser?id=' + ${user.id}}" method="POST" class="ml-2">
+                                        <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
+<div th:replace="~{fragments/style :: styleApplication}">
+</div>
+

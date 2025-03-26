@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <title>User Profile - PayYouPayMe</title>
+</head>
+<body>
+    <header th:replace="~{fragments/menu :: menuPrincipal}"></header>
+
+    <main class="container user-profile">
+        <!-- Section Messages - Pleine largeur -->
+        <section class="card full-width">
+            <h2>Messages Sent</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Content</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="message : ${userToDisplay.messageSent}">
+                            <td th:text="${message.content}"></td>
+                            <td th:text="${message.date}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section Contacts - Pleine largeur -->
+        <section class="card full-width mt-4">
+            <h2>Contacts List</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="utilisateur : ${userToDisplay.contact}">
+                            <td th:text="${utilisateur.id}"></td>
+                            <td th:text="${utilisateur.firstName}"></td>
+                            <td th:text="${utilisateur.lastName}"></td>
+                            <td th:text="${utilisateur.email}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section Transactions - Pleine largeur -->
+        <section class="card full-width mt-4">
+            <h2>Sent Transactions</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Amount</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Receiver</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="transaction : ${userToDisplay.transactionSent}">
+                            <td th:text="${transaction.id}"></td>
+                            <td th:text="${transaction.amount}"></td>
+                            <td th:text="${transaction.messageContent}"></td>
+                            <td th:text="${transaction.date}"></td>
+                            <td th:text="${transaction.reciever.username}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section Edit Profile - Pleine largeur -->
+        <section class="card full-width mt-4">
+            <h2>Edit Profile</h2>
+            <form th:action="@{/me/user/saveutilisateur}" method="POST" th:object="${userToDisplay}">
+                <input type="hidden" name="id" th:field="*{id}">
+                
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" id="lastname" name="lastname" th:field="*{lastName}" placeholder="Last Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" id="firstname" name="firstname" th:field="*{firstName}" placeholder="First Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" th:field="*{email}" placeholder="Email">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn">Update Profile</button>
+                    <form th:action="@{/me/user/suspendrecompte}" method="POST" class="mt-3">
+                        <button type="submit" class="btn btn-danger">Suspend Account</button>
+                    </form>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
+
+<div th:replace="~{fragments/style :: styleApplication}">
+</div>
+

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <title>Account Reactivation - PayYouPayMe</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">PayYouPayMe</div>
+    </nav>
+  
+    <main class="container">
+        <section class="card text-center">
+            <h1>Account Reactivation</h1>
+            <p>Do you want to reactivate your account?</p>
+            
+            <form th:action="@{/reactivermoncompte}" method="POST" class="mt-4">
+                <button type="submit" class="btn btn-success">Reactivate My Account</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
+
+<div th:replace="~{fragments/style :: styleApplication}">
+</div>
+

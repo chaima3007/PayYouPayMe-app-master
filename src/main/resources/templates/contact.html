@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <title>Contacts - PayYouPayMe</title>
+</head>
+<body>
+    <header th:replace="~{fragments/menu :: menuPrincipal}"></header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Contacts List</h2>
+            
+            <form th:action="@{/contact/addcontact}" method="POST" class="mb-4">
+                <div class="form-group">
+                    <label for="usernametoadd">Add New Contact</label>
+                    <div class="input-group">
+                        <input type="text" id="usernametoadd" name="usernametoadd" placeholder="Enter username" class="form-control">
+                        <button type="submit" class="btn">Add Contact</button>
+                    </div>
+                </div>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="utilisateur : ${contacts}">
+                        <td th:text="${utilisateur.id}"></td>
+                        <td th:text="${utilisateur.firstName}"></td>
+                        <td th:text="${utilisateur.lastName}"></td>
+                        <td th:text="${utilisateur.email}"></td>
+                        <td>
+                            <form th:action="@{'/contact/deletecontact?id='+${utilisateur.id}}" method="POST">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
+<div th:replace="~{fragments/style :: styleApplication}">
+</div>

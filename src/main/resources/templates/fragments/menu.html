@@ -1,0 +1,12 @@
+<nav th:fragment="menuPrincipal" class="navbar">
+    <div class="logo">PayYouPayMe</div>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a th:href="@{/me/user/}">Profile</a></li>
+        <li><a th:href="@{/contact/}">Contact</a></li>
+        <li><a th:href="@{/transaction/}">Transaction</a></li>
+        <li><a th:href="@{/transfert/}">Transfert</a></li>
+        <li><a th:href="@{/message/}">Message</a></li>
+        <li><a th:href="@{/logout}">Logout</a></li>
+    </ul>
+</nav>

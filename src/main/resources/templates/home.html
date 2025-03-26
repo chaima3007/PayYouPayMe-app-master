@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <title>PayYouPayMe - Home</title>
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container">
+        <section class="card welcome-section">
+            <h1>Welcome to PayYouPayMe</h1>
+            <p>PayYouPayMe is the simple and secure solution for all your online money transfers. Whether you want to send money to friends, pay for services, or receive payments, our platform makes the process quick and hassle-free.</p>
+            <p>With PayYouPayMe, enjoy reduced fees, instant transactions, and a user-friendly interface accessible from any device. Join our community today and discover a new way to manage your finances.</p>
+        </section>
+
+        <section th:if="${utilisateurCurrent == null}" class="card registration-form">
+            <h2>Create an Account</h2>
+            <form th:action="@{/signUp}" method="POST">
+                <div class="form-group">
+                    <label for="name">Username</label>
+                    <input type="text" id="name" name="userName" required placeholder="Username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+                
+                <div th:if="${error}" class="error-message">
+                    <p th:text="${error}"></p>
+                </div>
+                
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+        </section>
+        
+        <section th:unless="${utilisateurCurrent == null}" class="card dashboard-section">
+            <div th:if="${utilisateurCurrent.role == 'USER'}" class="link-blocks-container">
+                <a class="link-block" th:href="@{/me/user/}">Profile</a>
+                <a class="link-block" th:href="@{/transaction/}">Transactions</a>
+                <a class="link-block" th:href="@{/transfert/}">Transfert</a>
+                <a class="link-block" th:href="@{/contact/}">Contact</a>
+            </div>
+            
+            <div th:if="${utilisateurCurrent.role == 'SUSPENDU'}" class="link-blocks-container">
+                <a class="link-block" th:href="@{/reactiver/}">Reactivate Account</a>
+            </div>
+            
+            <div th:if="${utilisateurCurrent.role == 'ADMIN'}" class="link-blocks-container">
+                <a class="link-block" th:href="@{/admin/alldatas}">Dashboard</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+<div th:replace="~{fragments/style :: styleApplication}">
+</div>
